@@ -13,7 +13,6 @@ server.use(helmet());
 
 server.post("/api/register", async (req, res) => {
   const credentials = req.body;
-
   const hash = bcrypt.hashSync(credentials.password, 14);
   credentials.password = hash;
   try {
@@ -45,7 +44,7 @@ server.post("/api/login", async (req, res) => {
       res.status(200).json(users);
     }
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     res.status(500).json(err);
   }
 });
