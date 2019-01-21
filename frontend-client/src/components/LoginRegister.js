@@ -15,13 +15,13 @@ class LoginRegister extends React.Component {
 
   onSubmit = async e => {
     e.preventDefault();
-
-    const loggedIn = await axios.post("http://localhost:5000/api/login", { ...this.state });
-
-    if (loggedIn) {
+    try {
+      const loggedIn = await axios.post("http://localhost:5000/api/login", { ...this.state });
       this.props.login(loggedIn.data.cookie);
       this.props.toggle();
       this.props.history.push("/users");
+    } catch (err) {
+      console.log(err);
     }
   };
 

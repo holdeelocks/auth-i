@@ -16,7 +16,6 @@ class App extends Component {
   };
 
   async componentDidMount() {
-    console.log("ok");
     try {
       const userList = await axios.get("http://localhost:5000/api/restricted/users");
       this.setState({ users: userList.data });
