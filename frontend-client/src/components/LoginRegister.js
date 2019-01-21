@@ -1,7 +1,16 @@
 import React from "react";
-import { Button, Modal, ModalHeader, ModalBody } from "reactstrap";
-import { Col, Form, FormGroup, Label, Input } from "reactstrap";
 import axios from "axios";
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Col,
+  Form,
+  FormGroup,
+  Label,
+  Input
+} from "reactstrap";
 
 class LoginRegister extends React.Component {
   state = {
