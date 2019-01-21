@@ -6,12 +6,24 @@ import LoginRegister from "./components/LoginRegister";
 import { Route, Link } from "react-router-dom";
 import { Button } from "reactstrap";
 import { withRouter } from "react-router";
+import axios from "axios";
 
 class App extends Component {
   state = {
     showModal: false,
-    loggedIn: false
+    loggedIn: false,
+    users: []
   };
+
+  async componentDidMount() {
+    console.log("ok");
+    try {
+      const userList = await axios.get("http://localhost:5000/api/restricted/users");
+      this.setState({ users: userList.data });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   login = login => {
     this.setState({ loggedIn: login });
@@ -24,7 +36,7 @@ class App extends Component {
   };
 
   render() {
-    const { showModal, loggedIn } = this.state;
+    const { showModal, loggedIn, users } = this.state;
     return (
       <div className="App">
         <Header onClick={this.toggle} />
@@ -32,7 +44,7 @@ class App extends Component {
           <div>
             <h2>Welcome to the Frontend Auth App</h2>
 
-            {!showModal && (
+            {!showModal && !users && (
               <Link to="login">
                 <Button color="primary" onClick={this.toggle}>
                   Login/Register
@@ -48,7 +60,7 @@ class App extends Component {
             <LoginRegister {...props} toggle={this.toggle} modal={showModal} login={this.login} />
           )}
         />
-        <Route path="/users" render={props => <UserList {...props} />} />
+        <Route path="/users" render={props => <UserList {...props} users={users} />} />
       </div>
     );
   }
