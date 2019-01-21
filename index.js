@@ -1,57 +1,28 @@
-const express = require("express");
-const cors = require("cors");
-const helmet = require("helmet");
-const bcrypt = require("bcryptjs");
-const db = require("./database/dbConfig");
+// const express = require("express");
+// const cors = require("cors");
+// const helmet = require("helmet");
+// // const bcrypt = require("bcryptjs");
+// // const db = require("./database/dbConfig");
+// const session = require("express-session");
+const server = require("./server/server");
 
-const server = express();
-server.use(cors());
-server.use(express.json());
-server.use(helmet());
-
-// POST api/register
-
-server.post("/api/register", async (req, res) => {
-  const credentials = req.body;
-  const hash = bcrypt.hashSync(credentials.password, 14);
-  credentials.password = hash;
-  try {
-    const user = await db("users").insert(credentials);
-
-    res.status(201).json(user);
-  } catch (err) {
-    err.errno === 19
-      ? res.status(400).json({ error: "Username already taken" })
-      : res.status(500).json(err);
-  }
-});
-
-// POST api/login
-
-server.post("/api/login", async (req, res) => {
-  const credentials = req.body;
-  const { username } = req.body;
-
-  try {
-    const user = await db("users")
-      .where({ username })
-      .first();
-
-    if (!user || !bcrypt.compareSync(credentials.password, user.password)) {
-      return res.status(401).json({ error: "You shall not pass" });
-    } else {
-      const users = await db("users");
-      res.status(200).json(users);
-    }
-  } catch (err) {
-    // console.log(err);
-    res.status(500).json(err);
-  }
-});
-
-// GET api/users
-
-server.get("/api/users", async (req, res) => {});
+// const server = express();
+// server.use(cors());
+// server.use(express.json());
+// server.use(helmet());
+// server.use(
+//   session({
+//     name: "notsession",
+//     secret: "nobody tosses a dwarf!",
+//     cookie: {
+//       maxAge: 1 * 24 * 60 * 60 * 1000,
+//       secure: true
+//     },
+//     httpOnly: true,
+//     resave: false,
+//     saveUninitialized: false
+//   })
+// );
 
 const port = 5000;
 
