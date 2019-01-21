@@ -1,17 +1,14 @@
 const express = require("express");
-// const bcrypt = require("bcryptjs");
-// const db = require("./database/dbConfig");
 const cors = require("cors");
 const helmet = require("helmet");
 const session = require("express-session");
 
+const loginRouter = require("./routes/loginRouter");
 const restrictedRouter = require("./routes/restrictedRouter");
-const authRouter = require("./routes/authRouter");
+const registerRouter = require("./routes/registerRouter");
 const { authenticated } = require("./middleWare");
 
 const server = express();
-server.use("/api/restricted", authenticated, restrictedRouter);
-server.use("/api", authRouter);
 
 server.use(cors());
 server.use(express.json());
@@ -29,5 +26,9 @@ server.use(
     saveUninitialized: false
   })
 );
+
+server.use("/api/restricted", authenticated, restrictedRouter);
+server.use("/api/login", loginRouter);
+server.use("/api/register", registerRouter);
 
 module.exports = server;
