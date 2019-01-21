@@ -47,7 +47,7 @@ class App extends Component {
             {!showModal && !users && (
               <Link to="login">
                 <Button color="primary" onClick={this.toggle}>
-                  Login/Register
+                  Login
                 </Button>
               </Link>
             )}
