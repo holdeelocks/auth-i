@@ -17,15 +17,18 @@ class AppView extends Component {
 
   async componentDidMount() {
     try {
-      const userList = await axios.get("http://localhost:5000/api/restricted/users");
+      const userList = await axios.get("http://localhost:5000/api/restricted/users", {
+        withCredentials: true
+      });
+
       this.setState({ users: userList.data });
     } catch (err) {
       console.log(err);
     }
   }
 
-  login = login => {
-    this.setState({ loggedIn: login });
+  login = users => {
+    this.setState({ loggedIn: true, users });
   };
 
   toggle = () => {
@@ -34,16 +37,27 @@ class AppView extends Component {
     });
   };
 
+  logout = async e => {
+    e.preventDefault();
+    try {
+      const logout = await axios.get("http://localhost:5000/api/login/end", {
+        withCredentials: true
+      });
+      this.setState({ loggedIn: false, users: [] });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   render() {
     const { showModal, loggedIn, users } = this.state;
     return (
       <div className="App">
         <Header onClick={this.toggle} />
+        <h2>Welcome to the Frontend Auth App</h2>
         {!loggedIn && (
           <div>
-            <h2>Welcome to the Frontend Auth App</h2>
-
-            {!showModal && !users && (
+            {!showModal && users.length === 0 && (
               <Link to="login">
                 <Button color="primary" onClick={this.toggle}>
                   Login
@@ -52,6 +66,8 @@ class AppView extends Component {
             )}
           </div>
         )}
+
+        {users.length !== 0 && <Button onClick={this.logout}>Logout</Button>}
 
         <Route
           path="/login"

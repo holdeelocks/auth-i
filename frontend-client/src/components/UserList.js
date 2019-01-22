@@ -1,10 +1,9 @@
 import React from "react";
 
 const UserList = ({ users }) => {
-  if (!users) {
+  if (users.length === 0) {
     return <div>Please log in or register to see a list of users</div>;
   }
-
   return (
     <div>
       {users && (

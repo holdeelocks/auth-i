@@ -10,16 +10,21 @@ const { authenticated } = require("./middleWare");
 
 const server = express();
 
-server.use(cors());
+server.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000"
+  })
+);
 server.use(express.json());
 server.use(helmet());
 server.use(
   session({
-    name: "notsession",
+    name: "session",
     secret: "nobody tosses a dwarf!",
     cookie: {
       maxAge: 1 * 24 * 60 * 60 * 1000,
-      secure: true
+      secure: false
     },
     httpOnly: true,
     resave: false,
