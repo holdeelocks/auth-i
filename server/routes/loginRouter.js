@@ -4,9 +4,9 @@ const db = require('../../database/dbConfig');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-	res.json({ holden: 'this is working buddy' });
-});
+// router.get('/', (req, res) => {
+// 	res.json({ holden: 'this is working buddy' });
+// });
 
 router.post('/', async (req, res) => {
 	const credentials = req.body;
