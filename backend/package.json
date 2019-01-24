@@ -6,8 +6,7 @@
 	"author": "Holden B <holden.bucher.92@gmail.com>",
 	"license": "MIT",
 	"scripts": {
-		"server": "nodemon index.js",
-		"heroku-postbuild": "cd frontend-client && yarn && yarn build"
+		"server": "nodemon index.js"
 	},
 	"dependencies": {
 		"bcryptjs": "^2.4.3",
